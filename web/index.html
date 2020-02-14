@@ -61,11 +61,17 @@
 <script>
 
     $('button').click(function () {
-        var formData=$('#registerForm').serialize();
+        //var formData=$('#registerForm').serialize();
+        var name=$('#name').val();
+        var password = $("#password").val();
         $.ajax({
             url : "http://localhost:8080/chatapp/chat",
             method : "GET",
-            data: formData
+            data:{
+                name : name,
+                password : password,
+                option: "getUser"
+            }
         }).done(function (resp) {
             if(resp=="ok"){
                 top.location.href = 'MYprofile.html';

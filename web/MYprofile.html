@@ -2,9 +2,114 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta class="viewport">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>profile</title>
+    <link rel="stylesheet" href="Myprofile.css">
 </head>
 <body>
-<h1>profile</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h2>Online</h2>
+
+            <table class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col"></th>
+
+                </tr>
+                </thead>
+                <tbody id="tbody1">
+
+                </tbody>
+            </table>
+            <button type="button" id="btn1" class="btn btn-primary">view all</button>
+        </div>
+        <div class="col-6">
+        <h2>Chat here</h2>
+            <br>
+            <div>
+                <lable id="#friendname"></lable>
+            </div>
+            <br>
+            <form>
+                <div class="form-group row">
+                    <input type="text" class="form-control" id="msg"  placeholder="Enter the message">
+                </div>
+            </form>
+        </div>
+        <div class="col-3">
+            <h2>Your Friends</h2>
+            <table class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+
+                </tr>
+                </thead>
+                <tbody id="tbody2">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+    $("#btn1").click(function () {
+
+        $('#tbody1').empty();
+        $.ajax({
+            url : "http://localhost:8080/chatapp/chat",
+            method : "GET",
+            dataType:"json",
+            data:{
+                option: "getAll"
+            }
+
+        }).done(function (resp) {
+            console.log(resp)
+            for(var cus in resp){
+                var id=resp[cus].id;
+                var raw="<tr><td>"+resp[cus].id+"</td><td>"+resp[cus].name+"</td><td>"+"<button type=\"button\" id=\""+id+"\" class=\"btn btn-secondary btn-sm\">Add friend</button>"+"</td></tr>"
+                $('#tbody1').append(raw);
+
+                $("#"+id+"").click(function () {
+                    var id = $($(this).closest("tr").children().get(0)).text();
+                    var name = $($(this).closest("tr").children().get(1)).text();
+
+                    $('#tbody2').append("<tr><td>" + id + "</td><td>" + name + "</td></tr>");
+
+                });
+
+            }
+
+
+        }).fail(function (xhr) {
+            console.log(xhr)
+        });
+
+
+    });
+
+    $('#tbody2>tr').on('click',function () {
+        alert("aa")
+        $('#friendname').val($($(this).children().get(1)).text());
+
+
+    });
+
+
+
+
+
+</script>
+
 </body>
 </html>

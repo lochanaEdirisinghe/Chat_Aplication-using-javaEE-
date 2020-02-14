@@ -1,0 +1,10 @@
+body {
+}
+.col-3{
+    margin: auto 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    background-color: #d6e2e4;
+    border: #1b1e21;
+    height: 100vh;
+}
